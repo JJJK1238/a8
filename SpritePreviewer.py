@@ -49,30 +49,40 @@ class SpritePreview(QMainWindow):
         self.sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.sprite_label.setPixmap(self.frames[0])
 
-        main_layout.addWidget(self.sprite_label)
+        top_layout.addWidget(self.sprite_label)
 
-        fps_layout = QHBoxLayout()
-
-        fps_text = QLabel("Frames per second")
-        self.fps_value = QLabel("30")
-
-        fps_layout.addWidget(fps_text)
-        fps_layout.addWidget(self.fps_value)
-
-        main_layout.addLayout(fps_layout)
-
-        self.slider = QSlider(Qt.Orientation.Horizontal)
+        self.slider = QSlider(Qt.Orientation.Vertical)
         self.slider.setRange(1, 100)
-        self.slider.setValue(30)
-        self.slider.setTickPosition(QSlider.TickPosition.TicksBelow)
+        self.slider.setValue(1)
+        self.slider.setTickPosition(QSlider.TickPosition.TicksBothSides)
         self.slider.setTickInterval(10)
-
         self.slider.valueChanged.connect(self.update_fps)
 
-        main_layout.addWidget(self.slider)
+        top_layout.addWidget(self.slider)
 
+        main_layout.addLayout(top_layout)
+
+# FPS
+        fps_layout = QHBoxLayout()
+
+        self.fps_text = QLabel("Frames per second")
+        self.fps_value = QLabel("1")
+
+        self.fps_text.setFont(QFont("Arial", 18))
+        self.fps_value.setFont(QFont("Arial", 18))
+
+        fps_layout.addStretch()
+        fps_layout.addWidget(self.fps_text)
+        fps_layout.addSpacing(10)
+        fps_layout.addWidget(self.fps_value)
+        fps_layout.addStretch()
+
+        main_layout.addLayout(fps_layout)
+# Start Button
         self.start_button = QPushButton("Start")
         self.start_button.clicked.connect(self.start_stop)
+        self.start_button.setMinimumHeight(50)
+        self.start_button.setFont(QFont("Arial", 18))
 
         main_layout.addWidget(self.start_button)
 
@@ -97,12 +107,9 @@ class SpritePreview(QMainWindow):
         file_menu.addAction(exit_action)
 
     def update_fps(self):
-
         fps = self.slider.value()
         self.fps_value.setText(str(fps))
-
         delay = int(1000 / fps)
-
         self.timer.setInterval(delay)
 
     def start_stop(self):
