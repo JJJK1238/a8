@@ -44,6 +44,7 @@ class SpritePreview(QMainWindow):
         # Create needed connections between the UI components and slot methods
         # you define in this class.
         main_layout = QVBoxLayout()
+        top_layout = QHBoxLayout()
 
         self.sprite_label = QLabel()
         self.sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
